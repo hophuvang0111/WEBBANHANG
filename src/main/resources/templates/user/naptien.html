@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" ng-app="mysite">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VPSRE - Nạp tiền</title>
+  <link rel="icon" href="/images/icon-web.ico" type="image/x-icon">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+  <style>
+    body {
+      padding-top: 4.5rem;
+      /* Fix navbar overlapping content */
+    }
+    @media (max-width: 768px) {
+      footer {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body ng-controller="Naptiencontroller">
+  <div th:replace="~{user/index :: navbar}"></div>
+
+  <div class="d-flex justify-content-center align-items-center" style="height: 100vh;" th:if="${username == null}">
+    <div class="card">
+      <div class="card-header">
+        <div class="h5">Bạn chưa đăng nhập !</div>
+      </div>
+      <div class="card-body">
+        <div class="btn-group" role="group" aria-label="Basic example">
+          <a href="/login" class="btn btn-danger">Đăng nhập</a>
+          <a href="/register" class="btn btn-warning">Đăng ký</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container mt-5" th:if="${username != null}">
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="card">
+          <div class="card-body">
+            <form>
+              <div class="mb-3">
+                <label for="amount" class="form-label">Số tiền nạp</label>
+                <input type="text" class="form-control" id="amount" name="amount" ng-model="inputNaptien"
+                  onkeyup="formatInput(this)" />
+              </div>
+              <button type="submit" class="btn btn-primary" ng-click="naptien()">
+                Nạp tiền
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Lịch sử nạp tiền</h5>
+            <ul class="list-group">
+              <li class="list-group-item" ng-repeat="history in historyCharge"
+                ng-bind="'Ngày: ' + (history.transactiondate | date:'dd/MM/yyyy') + ' - Tiền: ' + (history.amount | currency:'':0) + ' - Trạng thái: ' + history.status">
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="bg-dark text-white text-center py-4" style="position: fixed; bottom: 0; width: 100%;">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 col-md-6 col-6 mb-6">
+          <h5 class="mb-3"><i class="fas fa-map-marker-alt"></i> Liên hệ</h5>
+          <p><i class="fas fa-envelope"></i> Email: congviec.phuvang.ho@gmail.com</p>
+        </div>
+        
+        <div class="col-lg-6 col-md-6 col-6 mb-6">
+          <h5 class="mb-3">Theo dõi chúng tôi</h5>
+          <div class="">
+            <a href="https://www.facebook.com/profile.php?id=100055199756576"><i class="fab fa-facebook-f"></i></a> Cậu
+            Vàng
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+
+  <script>
+    if (window.console && window.console.log) {
+    }
+
+    document.addEventListener("contextmenu", function (event) {
+      var mouse = event.preventDefault();
+    });
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "F12") {
+        event.preventDefault();
+        console.log("Người dùng đã nhấn F12!");
+      }
+    });
+  </script>
+
+  <script src="/js/user/naptien.js"></script>
+  <script>
+    function formatInput(input) {
+      // Lấy giá trị nhập vào từ input
+      let value = input.value;
+
+      // Xóa bỏ các ký tự không phải là số từ giá trị
+      value = value.replace(/\D/g, '');
+
+      // Định dạng giá trị thành chuỗi phân tách phần nghìn
+      value = Number(value).toLocaleString('en');
+
+      // Đặt lại giá trị đã định dạng vào input
+      input.value = value;
+    }
+  </script>
+</body>
+
+</html>
