@@ -144,7 +144,7 @@ public class HomeController {
 
     @GetMapping("/login")
     public String login() {
-        return "user/login";
+        return "login";
     }
 
     @GetMapping("/logout")

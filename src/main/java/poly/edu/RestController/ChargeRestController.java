@@ -173,6 +173,9 @@ public class ChargeRestController {
                         charge.setStatus("Đã thanh toán");
                         charge.setTransactiondate(LocalDateTime.now());
                         chargeRepository.save(charge);
+
+                        session.removeAttribute("orderCode");
+                        session.removeAttribute("paymentLinkId");
                     }
                 }
             } catch (IOException e) {

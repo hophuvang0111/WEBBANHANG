@@ -118,7 +118,7 @@ app.controller("Indexcontroller", function ($scope, $http) {
             window.location.href = "/login";
           } else {
             // Nếu người dùng chọn "Đăng ký", chuyển hướng đến trang đăng ký
-            window.location.href = "/register";
+            window.location.href = "/login?register=index";
           }
         });
       }
